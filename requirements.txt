@@ -1,0 +1,15 @@
+opencv-python
+mediapipe
+matplotlib
+tqdm
+streamlit
+tensorflow
+selenium
+scipy
+requests
+scikit-learn
+pandas
+fastapi
+uvicorn[standard]
+numpy
+python-multipart
