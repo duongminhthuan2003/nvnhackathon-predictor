@@ -15,6 +15,8 @@ app.add_middleware(
         "https://naver-hackathon-project.vercel.app",
         "https://www.naver-hackathon-project.vercel.app",
         "http://localhost:3000",
+        "http://localhost:5173",
+        "http://localhost:5174",
     ],
     allow_credentials=True,
     allow_methods=["POST", "OPTIONS"],
