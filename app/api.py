@@ -13,7 +13,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://naver-hackathon-project.vercel.app",
+        "https://naver-hackathon-project.vercel.app/record",
         "https://www.naver-hackathon-project.vercel.app",
+        "https://www.naver-hackathon-project.vercel.app/record",
         "http://localhost:3000",
         "http://localhost:5173",
         "http://localhost:5174",
