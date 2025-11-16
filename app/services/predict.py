@@ -13,11 +13,11 @@ import tensorflow as tf
 from scipy.interpolate import interp1d
 
 # ==== CẤU HÌNH THREAD CHO TF & OPENCV ====
-_tf_inter_threads = int(os.getenv("TF_INTER_THREADS", "4"))
-_tf_intra_threads = int(os.getenv("TF_INTRA_THREADS", "4"))
+_tf_inter_threads = int(os.getenv("TF_INTER_THREADS", "6"))
+_tf_intra_threads = int(os.getenv("TF_INTRA_THREADS", "6"))
 tf.config.threading.set_inter_op_parallelism_threads(_tf_inter_threads)
 tf.config.threading.set_intra_op_parallelism_threads(_tf_intra_threads)
-cv2.setNumThreads(int(os.getenv("OPENCV_THREADS", "4")))
+cv2.setNumThreads(int(os.getenv("OPENCV_THREADS", "6")))
 
 # ==== HẰNG SỐ LANDMARK ====
 mp_holistic = mp.solutions.holistic
