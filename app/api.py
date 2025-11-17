@@ -18,14 +18,17 @@ app.add_middleware(
         "https://naver-hackathon-project.vercel.app/record",
         "https://www.naver-hackathon-project.vercel.app",
         "https://www.naver-hackathon-project.vercel.app/record",
+	"https://naver-hackathon-project.vercel.app",
 	"https://gitinitpredictor.duckdns.org",
 	"https://www.gitinitpredictor.duckdns.org",
+	"https://gitinitpredictor.duckdns.org/predict",
         "http://localhost:3000",
         "http://localhost:5173",
         "http://localhost:5174",
+	"*",
     ],
     allow_credentials=True,
-    allow_methods=["POST", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
