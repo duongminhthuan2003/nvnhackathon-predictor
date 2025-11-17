@@ -106,7 +106,7 @@ def extract_keypoints(results) -> np.ndarray:
 
 def sequence_frames(video_path: str, holistic: mp_holistic.Holistic) -> List[np.ndarray]:
     """
-    Đọc video và lấy mẫu tối đa 60 frame đã chuyển thành keypoints.
+    Đọc video và lấy mẫu tối đa 100 frame đã chuyển thành keypoints.
     """
     frames: List[np.ndarray] = []
     cap = cv2.VideoCapture(video_path)
@@ -114,7 +114,7 @@ def sequence_frames(video_path: str, holistic: mp_holistic.Holistic) -> List[np.
         raise ValueError("Không thể mở video input")
 
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    step = max(1, total_frames // 60)
+    step = max(1, total_frames // 100)
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -181,11 +181,14 @@ def predict_from_video(video_path: str) -> Dict[str, object]:
     }
 
 
-def predict_from_bytes(video_bytes: bytes) -> Dict[str, object]:
+def predict_from_bytes(video_bytes: bytes, suffix: str = ".mp4") -> Dict[str, object]:
     """
     Nhận video dạng bytes (ví dụ UploadFile trong FastAPI), chạy dự đoán.
     """
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp:
+    if not suffix.startswith("."):
+        suffix = f".{suffix}"
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix.lower()) as tmp:
         tmp.write(video_bytes)
         temp_path = tmp.name
 
