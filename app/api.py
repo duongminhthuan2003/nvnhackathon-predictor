@@ -1,5 +1,9 @@
 # app/api.py
+import logging
+import os
+from datetime import datetime
 from pathlib import Path
+from uuid import uuid4
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,6 +14,10 @@ from app.services.predict import (
 )
 
 app = FastAPI(title="Vietnamese Sign Language API")
+logger = logging.getLogger(__name__)
+
+DEBUG_SAVE_UPLOADS = os.getenv("DEBUG_SAVE_UPLOADS", "false").lower() in {"1", "true", "yes"}
+DEBUG_UPLOAD_DIR = Path(os.getenv("DEBUG_UPLOAD_DIR", "debug_uploads"))
 
 app.add_middleware(
     CORSMiddleware,
@@ -62,6 +70,22 @@ async def predict(file: UploadFile = File(...)):
 
     if suffix not in ALLOWED_VIDEO_TYPES.values():
         suffix = ALLOWED_VIDEO_TYPES[content_type]
+
+    if DEBUG_SAVE_UPLOADS:
+        DEBUG_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+        base_name = "upload"
+        if file.filename:
+            sanitized = "".join(ch for ch in Path(file.filename).stem if ch.isalnum() or ch in ("-", "_"))
+            if sanitized:
+                base_name = sanitized
+        timestamp = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
+        debug_filename = f"{timestamp}-{base_name}-{uuid4().hex[:8]}{suffix}"
+        debug_path = DEBUG_UPLOAD_DIR / debug_filename
+        try:
+            debug_path.write_bytes(video_bytes)
+            logger.info("Saved debug upload to %s", debug_path)
+        except Exception as exc:
+            logger.warning("Failed to save debug upload %s: %s", debug_path, exc)
 
     try:
         result = predict_from_bytes(video_bytes, suffix=suffix)
