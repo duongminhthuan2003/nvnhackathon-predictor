@@ -16,6 +16,8 @@ app.add_middleware(
         "https://naver-hackathon-project.vercel.app/record",
         "https://www.naver-hackathon-project.vercel.app",
         "https://www.naver-hackathon-project.vercel.app/record",
+	"https://gitinitpredictor.duckdns.org",
+	"https://www.gitinitpredictor.duckdns.org",
         "http://localhost:3000",
         "http://localhost:5173",
         "http://localhost:5174",
